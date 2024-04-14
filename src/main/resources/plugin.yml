@@ -1,0 +1,4 @@
+name: FactionPicks
+version: '${project.version}'
+main: fr.akaazee.factionpicks.FactionPicks
+api-version: '1.20'
