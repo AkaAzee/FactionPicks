@@ -1,5 +1,6 @@
 package fr.akaazee.factionpicks;
 
+import fr.akaazee.factionpicks.listeners.RangeListener;
 import fr.akaazee.factionpicks.listeners.SpawnerListener;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,7 +22,25 @@ public final class FactionPicks extends JavaPlugin {
         saveDefaultConfig();
 
         getServer().getPluginManager().registerEvents(new SpawnerListener(getConfig()), this);
+        getServer().getPluginManager().registerEvents(new RangeListener(getConfig()), this);
 
+
+        ItemStack superPick = new ItemStack(Material.NETHERITE_PICKAXE, 1);
+        ItemMeta superMeta = superPick.getItemMeta();
+        superMeta.setDisplayName("§f§bSuperPick");
+        superMeta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("RangePick"));
+        superMeta.setLore(List.of(new String[]{"Quoicoubeh"}));
+        Damageable superDamageMeta = (Damageable) superMeta;
+        superPick.setItemMeta(superMeta);
+
+        ShapedRecipe superPickRecipe = new ShapedRecipe(new NamespacedKey(this, "superPick"), superPick);
+
+        superPickRecipe.shape("X%X", " * ", " * ");
+        superPickRecipe.setIngredient('%', Material.NETHER_STAR);
+        superPickRecipe.setIngredient('*', Material.DIAMOND_BLOCK);
+        superPickRecipe.setIngredient('X', Material.OBSIDIAN);
+
+        getServer().addRecipe(superPickRecipe);
 
 
 

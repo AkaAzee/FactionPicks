@@ -75,7 +75,7 @@ public class SpawnerListener implements Listener {
             if (item.hasItemMeta()) {
                 if (item.getItemMeta().hasCustomModelData()) {
                     if (inv.getType().equals(InventoryType.ANVIL) && item.getItemMeta().getCustomModelData() == this.configCMD && event.getSlot() == 2) {
-                        event.getWhoClicked().sendMessage("§4You can't repair or enchant this item");
+                        event.getWhoClicked().sendMessage("§4You cannot repair or enchant this item");
                         event.setCancelled(true);
                     }
                 }
