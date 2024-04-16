@@ -27,9 +27,8 @@ public final class FactionPicks extends JavaPlugin {
 
         ItemStack superPick = new ItemStack(Material.NETHERITE_PICKAXE, 1);
         ItemMeta superMeta = superPick.getItemMeta();
-        superMeta.setDisplayName("§f§bSuperPick");
+        superMeta.setDisplayName("§f§bPioche MultiBlock");
         superMeta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("RangePick"));
-        superMeta.setLore(List.of(new String[]{"Quoicoubeh"}));
         Damageable superDamageMeta = (Damageable) superMeta;
         superPick.setItemMeta(superMeta);
 
@@ -47,8 +46,8 @@ public final class FactionPicks extends JavaPlugin {
         ItemStack sPick = new ItemStack(Material.NETHERITE_PICKAXE, 1);
         ItemMeta meta = sPick.getItemMeta();
         meta.setDisplayName("§f§bSpawner Breaker");
-        meta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("SpawnerPick"));
-        meta.setLore(List.of(new String[]{"This pickaxe only has 3 uses !"}));
+        meta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("Pioche à Spawner"));
+        meta.setLore(List.of(new String[]{"Cette pioche n'a que 3 utilisations !"}));
         Damageable damageMeta = (Damageable) meta;
         damageMeta.setDamage(sPick.getType().getMaxDurability()-3);
         sPick.setItemMeta(meta);
