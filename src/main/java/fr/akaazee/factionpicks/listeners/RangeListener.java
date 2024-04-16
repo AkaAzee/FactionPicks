@@ -1,6 +1,8 @@
 package fr.akaazee.factionpicks.listeners;
 
-import org.bukkit.Location;
+import com.massivecraft.factions.*;
+import com.massivecraft.factions.zcore.fperms.Access;
+import com.massivecraft.factions.zcore.fperms.PermissableAction;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -15,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class RangeListener implements Listener {
 
-    private int configCMD;
+    private final int configCMD;
     private BlockFace blockFace;
 
     public RangeListener(FileConfiguration config) {
@@ -23,10 +25,10 @@ public class RangeListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event){
+    public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        if(!event.isCancelled()) {
+        if (!event.isCancelled()) {
             if (player.getInventory().getItemInMainHand().hasItemMeta()) {
                 if (player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData()) {
                     int CMD = player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData();
@@ -37,38 +39,38 @@ public class RangeListener implements Listener {
                         switch (this.blockFace) {
                             case UP:
                             case DOWN:
-                                world.getBlockAt(block.getX()-1, block.getY(), block.getZ()+1).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY(), block.getZ()+1).breakNaturally(item);
-                                world.getBlockAt(block.getX()+1, block.getY(), block.getZ()+1).breakNaturally(item);
-                                world.getBlockAt(block.getX()-1, block.getY(), block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX()+1, block.getY(), block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX()-1, block.getY(), block.getZ()-1).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY(), block.getZ()-1).breakNaturally(item);
-                                world.getBlockAt(block.getX()+1, block.getY(), block.getZ()-1).breakNaturally(item);
+                                breakBlock(-1, 0, 1, block, player, item);
+                                breakBlock(0, 0, 1, block, player, item);
+                                breakBlock(1, 0, 1, block, player, item);
+                                breakBlock(-1, 0, 0, block, player, item);
+                                breakBlock(1, 0, 0, block, player, item);
+                                breakBlock(-1, 0, -1, block, player, item);
+                                breakBlock(0, 0, -1, block, player, item);
+                                breakBlock(1, 0, -1, block, player, item);
                                 break;
 
                             case NORTH:
                             case SOUTH:
-                                world.getBlockAt(block.getX()-1, block.getY()+1, block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY()+1, block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX()+1, block.getY() +1, block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX()-1, block.getY(), block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX()+1, block.getY(), block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX()-1, block.getY() - 1, block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY() - 1, block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX()+1, block.getY() - 1, block.getZ()).breakNaturally(item);
+                                breakBlock(-1, 1, 0, block, player, item);
+                                breakBlock(0, 1, 0, block, player, item);
+                                breakBlock(1, 1, 0, block, player, item);
+                                breakBlock(-1, 0, 0, block, player, item);
+                                breakBlock(1, 0, 0, block, player, item);
+                                breakBlock(-1, -1, 0, block, player, item);
+                                breakBlock(0, -1, 0, block, player, item);
+                                breakBlock(1, -1, 0, block, player, item);
                                 break;
 
                             case EAST:
                             case WEST:
-                                world.getBlockAt(block.getX(), block.getY()+1, block.getZ()+1).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY()+1, block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY()+1, block.getZ()-1).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY(), block.getZ()+1).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY(), block.getZ()-1).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY()-1, block.getZ()+1).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY() - 1, block.getZ()).breakNaturally(item);
-                                world.getBlockAt(block.getX(), block.getY() - 1, block.getZ()-1).breakNaturally(item);
+                                breakBlock(0, 1, 1, block, player, item);
+                                breakBlock(0, 1, 0, block, player, item);
+                                breakBlock(0, 1, -1, block, player, item);
+                                breakBlock(0, 0, 1, block, player, item);
+                                breakBlock(0, 0, -1, block, player, item);
+                                breakBlock(0, -1, 1, block, player, item);
+                                breakBlock(0, -1, 0, block, player, item);
+                                breakBlock(0, -1, -1, block, player, item);
                                 break;
                         }
                     }
@@ -82,4 +84,15 @@ public class RangeListener implements Listener {
         this.blockFace = event.getBlockFace();
     }
 
+    public void breakBlock(int x, int y, int z, Block block, Player player, ItemStack item){
+        Block nBlock = player.getWorld().getBlockAt(block.getX() + x, block.getY() + y, block.getZ() + z);
+        FLocation fLocation = new FLocation(nBlock.getLocation());
+        FPlayer fPlayer = FPlayers.getInstance().getById(player.getUniqueId().toString());
+        Faction faction = Board.getInstance().getFactionAt(fLocation);
+        if(faction.getAccess(fPlayer, PermissableAction.DESTROY).equals(Access.ALLOW)){
+            nBlock.breakNaturally(item);
+        } else if (faction.isWilderness()) {
+            nBlock.breakNaturally(item);
+        }
+    }
 }
