@@ -3,6 +3,6 @@
 #CustomModelData des différentes pioches :
 CMD:
   #Pioche permettant de miner les spawners
-  SpawnerPick : 1
+  Pioche à Spawner : 1
   #Pioche permettant de miner en 3x3
-  RangePick : 2
+  Pioche MultiBlock : 2

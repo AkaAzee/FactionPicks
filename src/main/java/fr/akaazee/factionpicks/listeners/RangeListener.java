@@ -26,6 +26,7 @@ public class RangeListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        if(event.isCancelled())return;
         Player player = event.getPlayer();
         Block block = event.getBlock();
         if (!event.isCancelled()) {

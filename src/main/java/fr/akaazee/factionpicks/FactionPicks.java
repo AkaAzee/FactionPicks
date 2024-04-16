@@ -4,8 +4,6 @@ import fr.akaazee.factionpicks.listeners.RangeListener;
 import fr.akaazee.factionpicks.listeners.SpawnerListener;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.damage.DamageEffect;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.Damageable;
@@ -28,7 +26,7 @@ public final class FactionPicks extends JavaPlugin {
         ItemStack superPick = new ItemStack(Material.NETHERITE_PICKAXE, 1);
         ItemMeta superMeta = superPick.getItemMeta();
         superMeta.setDisplayName("§f§bPioche MultiBlock");
-        superMeta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("RangePick"));
+        superMeta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("Pioche MultiBlock"));
         Damageable superDamageMeta = (Damageable) superMeta;
         superPick.setItemMeta(superMeta);
 
@@ -45,7 +43,7 @@ public final class FactionPicks extends JavaPlugin {
 
         ItemStack sPick = new ItemStack(Material.NETHERITE_PICKAXE, 1);
         ItemMeta meta = sPick.getItemMeta();
-        meta.setDisplayName("§f§bSpawner Breaker");
+        meta.setDisplayName("§f§bPioche à Spawner");
         meta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("Pioche à Spawner"));
         meta.setLore(List.of(new String[]{"Cette pioche n'a que 3 utilisations !"}));
         Damageable damageMeta = (Damageable) meta;
