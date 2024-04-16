@@ -25,7 +25,7 @@ public final class FactionPicks extends JavaPlugin {
 
         ItemStack superPick = new ItemStack(Material.NETHERITE_PICKAXE, 1);
         ItemMeta superMeta = superPick.getItemMeta();
-        superMeta.setDisplayName("§f§bPioche MultiBlock");
+        superMeta.setDisplayName("§f§bLe Marteau");
         superMeta.setCustomModelData(getConfig().getConfigurationSection("CMD").getInt("Pioche MultiBlock"));
         Damageable superDamageMeta = (Damageable) superMeta;
         superPick.setItemMeta(superMeta);
